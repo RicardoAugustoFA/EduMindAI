@@ -440,20 +440,6 @@
         alert("E-book enviado ao seu e-mail (simulação).");
       });
 
-      document.getElementById("openCheckout").addEventListener("click", () => {
-        modal.classList.add("open");
-      });
-
-      document.getElementById("closeModal").addEventListener("click", () => {
-        modal.classList.remove("open");
-      });
-
-      document
-        .getElementById("checkoutForm")
-        .addEventListener("submit", (e) => {
-          e.preventDefault();
-          document.getElementById("demoResult").style.display = "block";
-        });
     </script>
   </body>
 </html>
