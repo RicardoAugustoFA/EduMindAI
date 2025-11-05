@@ -105,12 +105,12 @@
       }
 
       .video-wrap {
-        position: relative;
-        aspect-ratio: 16/9;
-        border-radius: 10px;
-        overflow: hidden;
-        background: black;
-      }
+  position: relative;
+  aspect-ratio: 9/16; 
+  border-radius: 10px;
+  overflow: hidden;
+  background: black;
+}
 
       video {
         width: 100%;
@@ -295,10 +295,10 @@
             </p>
           </div>
 
-          <div style="width: 560px; max-width: 44%; min-width: 300px">
+          <div style="width: 100%; max-width: 320px; min-width: 280px; margin: 0 auto;">
             <div class="video-wrap" id="videoWrap">
               <video id="introVideo" controls playsinline>
-                <source src="VIDEO_SRC.mp4" type="video/mp4" />
+                <source src="VideoFull.mp4" type="video/mp4" />
                 Seu navegador não suporta vídeo HTML5.
               </video>
               <div class="blocked-msg" id="blockedMsg">
@@ -403,7 +403,7 @@
         </div>
       </section>
 
-      <footer>
+      <footer>  
         <strong>EduMind AI</strong> — IA aplicada à Educação Inclusiva © 2025
       </footer>
     </div>
