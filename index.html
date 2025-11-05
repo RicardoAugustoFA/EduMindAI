@@ -105,12 +105,12 @@
       }
 
       .video-wrap {
-        position: relative;
-        aspect-ratio: 16/9;
-        border-radius: 10px;
-        overflow: hidden;
-        background: black;
-      }
+  position: relative;
+  aspect-ratio: 9/16; 
+  border-radius: 10px;
+  overflow: hidden;
+  background: black;
+}
 
       video {
         width: 100%;
@@ -295,17 +295,15 @@
             </p>
           </div>
 
-          <div style="width: 560px; max-width: 44%; min-width: 300px">
-            <div class="video-wrap" id="videoWrap">
-              <video id="introVideo" controls playsinline>
-                <source src="VIDEO_SRC.mp4" type="video/mp4" />
-                Seu navegador não suporta vídeo HTML5.
-              </video>
-              <div class="blocked-msg" id="blockedMsg">
-                ⛔ Assista ao vídeo para liberar o restante da página
-              </div>
-            </div>
-          </div>
+          <div style="width: 100%; max-width: 320px; min-width: 280px; margin: 0 auto;">
+  <div class="video-wrap" id="videoWrap">
+    
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/TjC0Sq9LJkI?si=5Zu9-fJ1_cRfmN8L" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    
+    <div class="blocked-msg" id="blockedMsg">
+      ⛔ Assista ao vídeo para liberar o restante da página
+    </div>
+  </div>
         </div>
 
         <!-- BLOCO EMOCIONAL -->
@@ -403,7 +401,7 @@
         </div>
       </section>
 
-      <footer>
+      <footer>  
         <strong>EduMind AI</strong> — IA aplicada à Educação Inclusiva © 2025
       </footer>
     </div>
@@ -411,49 +409,89 @@
     </div>
 
     <script>
-      const introVideo = document.getElementById("introVideo");
-      const blockedMsg = document.getElementById("blockedMsg");
-      const restOfPage = document.getElementById("restOfPage");
-      const modal = document.getElementById("modal");
+  // 1. Funções de bloqueio
+  const blockedMsg = document.getElementById("blockedMsg");
+  const restOfPage = document.getElementById("restOfPage");
 
-      function blockRest() {
-        restOfPage.style.pointerEvents = "none";
-        restOfPage.style.opacity = "0.45";
-        blockedMsg.style.display = "flex";
+  function blockRest() {
+    // Só bloqueia se o 'restOfPage' existir
+    if (restOfPage) {
+      restOfPage.style.pointerEvents = "none";
+      restOfPage.style.opacity = "0.45";
+    }
+    if (blockedMsg) {
+      blockedMsg.style.display = "flex";
+    }
+  }
+
+  function unlockRest() {
+    if (restOfPage) {
+      restOfPage.style.pointerEvents = "auto";
+      restOfPage.style.opacity = "1";
+    }
+    if (blockedMsg) {
+      blockedMsg.style.display = "none";
+    }
+  }
+
+  // Inicia a página bloqueada
+  blockRest();
+
+  // 2. Carrega a API do YouTube Iframe
+  var tag = document.createElement('script');
+  tag.src = "https://www.youtube.com/iframe_api";
+  var firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+  // 3. Cria o player (esta função é CHAMADA SOZINHA pela API do YouTube)
+  var player;
+  function onYouTubeIframeAPIReady() {
+    player = new YT.Player('youtubePlayer', {
+      events: {
+        'onStateChange': onPlayerStateChange
       }
+    });
+  }
 
-      function unlockRest() {
-        restOfPage.style.pointerEvents = "auto";
-        restOfPage.style.opacity = "1";
-        blockedMsg.style.display = "none";
+  // 4. A função que "escuta" os eventos do player
+  function onPlayerStateChange(event) {
+    // event.data == 0 significa que o vídeo terminou (YT.PlayerState.ENDED)
+    if (event.data == 0) {
+      unlockRest(); // Desbloqueia a página
+    }
+  }
+
+  // 5. Atualiza o botão "Assistir" para controlar o player do YouTube
+  const openWebinarBtn = document.getElementById("openWebinar");
+  if (openWebinarBtn) {
+    openWebinarBtn.addEventListener("click", () => {
+      // Tenta dar play no vídeo
+      if (player && typeof player.playVideo === 'function') {
+        player.playVideo();
       }
+      // Rola a tela até o vídeo
+      const videoWrap = document.getElementById("videoWrap");
+      if (videoWrap) {
+        videoWrap.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    });
+  }
+  
+  // 6. Botão de download (funciona como antes)
+  const downloadLeadBtn = document.getElementById("downloadLead");
+  if (downloadLeadBtn) {
+    downloadLeadBtn.addEventListener("click", () => {
+      alert("E-book enviado ao seu e-mail (simulação).");
+    });
+  }
 
-      blockRest();
-      introVideo.addEventListener("ended", unlockRest);
-
-      document.getElementById("openWebinar").addEventListener("click", () => {
-        introVideo.play().catch(() => {});
-        introVideo.scrollIntoView({ behavior: "smooth", block: "center" });
-      });
-
-      document.getElementById("downloadLead").addEventListener("click", () => {
-        alert("E-book enviado ao seu e-mail (simulação).");
-      });
-
-      document.getElementById("openCheckout").addEventListener("click", () => {
-        modal.classList.add("open");
-      });
-
-      document.getElementById("closeModal").addEventListener("click", () => {
-        modal.classList.remove("open");
-      });
-
-      document
-        .getElementById("checkoutForm")
-        .addEventListener("submit", (e) => {
-          e.preventDefault();
-          document.getElementById("demoResult").style.display = "block";
-        });
-    </script>
+  // 7. Botão de checkout (agora só dá um alerta, pois não há modal)
+  const openCheckoutBtn = document.getElementById("openCheckout");
+  if (openCheckoutBtn) {
+    openCheckoutBtn.addEventListener("click", () => {
+       alert("Botão de checkout clicado!");
+    });
+  }
+</script>
   </body>
 </html>
