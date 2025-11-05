@@ -296,16 +296,20 @@
           </div>
 
           <div style="width: 100%; max-width: 320px; min-width: 280px; margin: 0 auto;">
-            <div class="video-wrap" id="videoWrap">
-              <video id="introVideo" controls playsinline>
-  <source src="https://idwequfpxhgpyii8.public.blob.vercel-storage.com/VideoFull.mp4" type="video/mp4" />
-  Seu navegador não suporta vídeo HTML5.
-</video>
-              <div class="blocked-msg" id="blockedMsg">
-                ⛔ Assista ao vídeo para liberar o restante da página
-              </div>
-            </div>
-          </div>
+  <div class="video-wrap" id="videoWrap">
+    
+    <iframe id="youtubePlayer"
+      style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
+      src="https://www.youtube.com/embed/TjC0Sq9LJkI?enablejsapi=1&controls=0&rel=0&iv_load_policy=3&modestbranding=1"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen>
+    </iframe>
+    
+    <div class="blocked-msg" id="blockedMsg">
+      ⛔ Assista ao vídeo para liberar o restante da página
+    </div>
+  </div>
         </div>
 
         <!-- BLOCO EMOCIONAL -->
